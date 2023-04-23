@@ -177,6 +177,9 @@ class TrafficModel:
 
         best_valid_loss = np.PINF
         best_valid_stats = (0, 0, 0, 0, 0, 0, 0)
+        file = open(f"./{self.model_type}_{self.model_size}_{dt.time}.csv", "w")
+        total_losses = []
+        total_accs = []
         self.save()
         for e in range(epochs):
             if verbose and e % log_period == 0:
@@ -214,7 +217,9 @@ class TrafficModel:
 
                 losses.append(loss)
                 accs.append(acc)
-
+           
+            total_losses.append([np.mean(losses), valid_loss, test_loss])
+            total_accs.append([np.mean(accs), valid_acc, test_acc])
             if verbose and e % log_period == 0:
                 print(
                     "Epochs {:03d}, train loss: {:0.2f}, train mae: {:0.2f}, valid loss: {:0.2f}, valid mae: {:0.2f}, test loss: {:0.2f}, test mae: {:0.2f}".format(
@@ -250,6 +255,10 @@ class TrafficModel:
                 test_acc,
             )
         )
+        
+        file.write("epoch,mean_loss,mean_acc,valid_loss,valid_acc,test_loss,test_acc\n")
+        for i in range(len(total_losses)):
+            file.write(f"{i},{total_losses[i][0]},{total_accs[i][0]},{total_losses[i][1]},{total_accs[i][1]},{total_losses[i][2]},{total_accs[i][2]}\n")
         with open(self.result_file, "a") as f:
             f.write(
                 "{:08d}, {:0.8f}, {:0.8f}, {:0.8f}, {:0.8f}, {:0.8f}, {:0.8f}\n".format(
