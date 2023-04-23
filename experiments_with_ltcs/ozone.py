@@ -238,7 +238,8 @@ class OzoneModel:
 
 
     def fit(self,gesture_data,epochs,verbose=True,log_period=50):
-
+        
+        file = open(f"./{self.model_type}_{self.model_size}_{dt.time}.csv", "w")
         best_valid_acc = 0
         best_valid_stats = (0,0,0,0,0,0,0)
         self.save()
@@ -268,6 +269,10 @@ class OzoneModel:
 
                 losses.append(loss)
                 accs.append(acc)
+                
+            file.write("epoch,loss,accuracy\n")
+            for i in range(len(losses)):
+                file.write(f"{i},{losses[i]},{accs[i]}\n")
 
             if(verbose and e%log_period == 0):
                 print("Epochs {:03d}, train loss: {:0.2f}, train acc: {:0.2f}, valid loss: {:0.2f}, valid acc: {:0.2f}, test loss: {:0.2f}, test acc: {:0.2f}".format(
