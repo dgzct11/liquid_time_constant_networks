@@ -7,6 +7,7 @@ import tensorflow as tf
 import ltc_model as ltc
 from ctrnn_model import CTRNN, NODE, CTGRU
 import argparse
+import datetime as dt
 
 def load_trace(filename):
     df = pd.read_csv(filename,header=0)
@@ -230,7 +231,7 @@ class GestureModel:
         file.write("epoch,mean_loss,mean_acc,valid_loss,valid_acc,test_loss,test_acc\n")
         for i in range(len(total_losses)):
             file.write(f"{i},{total_losses[i][0]},{total_accs[i][0]},{total_losses[i][1]},{total_accs[i][1]},{total_losses[i][2]},{total_accs[i][2]}\n")
-            
+
         with open(self.result_file,"a") as f:
             f.write("{:03d}, {:0.2f}, {:0.2f}, {:0.2f}, {:0.2f}, {:0.2f}, {:0.2f}\n".format(
             best_epoch,
