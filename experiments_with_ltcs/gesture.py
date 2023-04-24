@@ -14,7 +14,7 @@ from jtop import jtop
 import csv
 from threading import Thread
 
-finished = False
+
 
 def log_utils(model, size, dataset, t):
     csvfile =  open(f"./runs/utils_logger_{dataset}_{model}_{size}_{t}.csv", 'w')
@@ -267,7 +267,7 @@ class GestureModel:
             valid_loss,valid_acc,
             test_loss,test_acc
         ))
-        finished = True
+        dummy
 
 if __name__ == "__main__":
 
