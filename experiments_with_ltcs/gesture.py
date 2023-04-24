@@ -266,7 +266,7 @@ class GestureModel:
             valid_loss,valid_acc,
             test_loss,test_acc
         ))
-        os._exit(0)
+        
 
 if __name__ == "__main__":
 

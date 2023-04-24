@@ -340,7 +340,7 @@ class OzoneModel:
             valid_loss,valid_acc,
             test_loss,test_acc
         ))
-        
+        dummy
 
 if __name__ == "__main__":
 
