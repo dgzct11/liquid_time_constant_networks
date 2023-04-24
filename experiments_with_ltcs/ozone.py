@@ -10,6 +10,31 @@ import argparse
 import datetime as dt
 import time
 
+from jtop import jtop
+import csv
+from threading import Thread
+
+
+def log_utils(model, size, dataset, t):
+    with jtop() as jetson:
+        # Make csv file and setup csv
+        with open(f"./runs/utils_logger_{dataset}_{model}_{size}_{t}.csv", 'w') as csvfile:
+            stats = jetson.stats
+            # Initialize cws writer
+            writer = csv.DictWriter(csvfile, fieldnames=stats.keys())
+            # Write header
+            writer.writeheader()
+            # Write first row
+            writer.writerow(stats)
+            # Start loop
+            while jetson.ok():
+                stats = jetson.stats
+                # Write row
+                writer.writerow(stats)
+                print("writing stats to CSV")
+                
+
+
 
 
 def to_float(v):
@@ -245,12 +270,16 @@ class OzoneModel:
        
   
         
-        file = open(f"./{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
+        file = open(f"./runs/{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
         total_losses = []
         total_accs = []
         best_valid_acc = 0
         best_valid_stats = (0,0,0,0,0,0,0)
         self.save()
+
+        t = Thread(target = log_utils, args =(self.model_type, self.model_size, "traffic",time.strftime('%H:%M:%S', time.localtime())), daemon = True)
+        t.start()
+
         for e in range(epochs):
             if(verbose and e%log_period == 0):
                 test_acc,test_loss = self.sess.run([self.accuracy,self.loss],{self.x:gesture_data.test_x,self.target_y: gesture_data.test_y})
