@@ -277,7 +277,7 @@ class OzoneModel:
         best_valid_stats = (0,0,0,0,0,0,0)
         self.save()
 
-        t = Thread(target = log_utils, args =(self.model_type, self.model_size, "traffic",time.strftime('%H:%M:%S', time.localtime())), daemon = True)
+        t = Thread(target = log_utils, args =(self.model_type, self.model_size, "ozone",time.strftime('%H:%M:%S', time.localtime())), daemon = True)
         t.start()
 
         for e in range(epochs):
