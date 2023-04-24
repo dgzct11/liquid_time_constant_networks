@@ -309,7 +309,7 @@ class OzoneModel:
             
             total_losses.append([np.mean(losses), valid_loss, test_loss])
             total_accs.append([np.mean(accs), valid_acc, test_acc])
-
+            print(f"{verbose and e%log_period == 0}_{verbose}_{e}_{log_period}")
             if(verbose and e%log_period == 0):
                 print("Epochs {:03d}, train loss: {:0.2f}, train acc: {:0.2f}, valid loss: {:0.2f}, valid acc: {:0.2f}, test loss: {:0.2f}, test acc: {:0.2f}".format(
                     e,
