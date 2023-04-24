@@ -15,6 +15,7 @@ import time
 from jtop import jtop
 import csv
 from threading import Thread
+import sys
 
 def log_utils(model, size, dataset, t):
     csvfile =  open(f"./runs/utils_logger_{dataset}_{model}_{size}_{t}.csv", 'w')
@@ -296,7 +297,7 @@ class TrafficModel:
                     test_acc,
                 )
             )
-        
+        sys.exit()
 
 
 if __name__ == "__main__":
