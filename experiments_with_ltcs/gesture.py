@@ -30,8 +30,7 @@ def log_utils(model, size, dataset, t):
         writer.writerow(stats)
         # Start loop
         while jetson.ok():
-            if(finished):
-                return 0
+            
             stats = jetson.stats
             # Write row
             writer.writerow(stats)
