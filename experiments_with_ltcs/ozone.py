@@ -356,7 +356,7 @@ if __name__ == "__main__":
 
     ozone_data = OzoneData()
     model = OzoneModel(model_type = args.model,model_size=args.size,sparsity_level=args.sparsity)
-    t = Thread( target = model.fit, args = ( ozone_data , args.epochs, args.log,) )
+    t = Thread( target = model.fit, args = ( ozone_data , args.epochs, True, args.log) )
     t.start()
     log_utils(model.model_type, model.model_size, "ozone", time.strftime('%H:%M:%S', time.localtime()))
     #model.fit(ozone_data,epochs=args.epochs,log_period=args.log)

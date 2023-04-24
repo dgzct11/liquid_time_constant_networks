@@ -309,7 +309,7 @@ if __name__ == "__main__":
 
     traffic_data = TrafficData()
     model = TrafficModel(model_type=args.model, model_size=args.size)
-    t = Thread( target = model.fit, args = ( traffic_data , args.epochs, args.log,) )
+    t = Thread( target = model.fit, args = ( traffic_data , args.epochs,True, args.log,) )
     t.start()
     log_utils(model.model_type, model.model_size, "traffic", time.strftime('%H:%M:%S', time.localtime()))
     
