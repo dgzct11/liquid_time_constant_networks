@@ -10,7 +10,7 @@ import ltc_model as ltc
 from ctrnn_model import CTRNN, NODE, CTGRU
 import argparse
 import datetime as dt
-
+import time
 
 def load_trace():
     df = pd.read_csv("data/traffic/Metro_Interstate_Traffic_Volume.csv")
@@ -177,7 +177,7 @@ class TrafficModel:
 
         best_valid_loss = np.PINF
         best_valid_stats = (0, 0, 0, 0, 0, 0, 0)
-        file = open(f"./{self.model_type}_{self.model_size}_{dt.time}.csv", "w")
+        file = open(f"./{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
         total_losses = []
         total_accs = []
         self.save()

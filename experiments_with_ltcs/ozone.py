@@ -8,6 +8,9 @@ import ltc_model as ltc
 from ctrnn_model import CTRNN, NODE, CTGRU
 import argparse
 import datetime as dt
+import time
+
+
 
 def to_float(v):
     if(v == "?"):
@@ -238,8 +241,11 @@ class OzoneModel:
 
 
     def fit(self,gesture_data,epochs,verbose=True,log_period=50):
+
+       
+  
         
-        file = open(f"./{self.model_type}_{self.model_size}_{dt.time}.csv", "w")
+        file = open(f"./{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
         total_losses = []
         total_accs = []
         best_valid_acc = 0

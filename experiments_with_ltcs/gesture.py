@@ -8,6 +8,7 @@ import ltc_model as ltc
 from ctrnn_model import CTRNN, NODE, CTGRU
 import argparse
 import datetime as dt
+import time
 
 def load_trace(filename):
     df = pd.read_csv(filename,header=0)
@@ -178,7 +179,7 @@ class GestureModel:
         best_valid_stats = (0,0,0,0,0,0,0)
         self.save()
 
-        file = open(f"./{self.model_type}_{self.model_size}_{dt.time}.csv", "w")
+        file = open(f"./{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
         total_losses = []
         total_accs = []
         for e in range(epochs):
