@@ -202,7 +202,7 @@ class TrafficModel:
 
         best_valid_loss = np.PINF
         best_valid_stats = (0, 0, 0, 0, 0, 0, 0)
-        file = open(f"./{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
+        file = open(f"./runs/{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
         total_losses = []
         total_accs = []
         self.save()
