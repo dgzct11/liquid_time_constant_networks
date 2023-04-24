@@ -13,9 +13,9 @@ import time
 from jtop import jtop
 import csv
 from threading import Thread
+import sys
 
-
-def log_utils(model, size, dataset, t):
+def log_utils(model, size, dataset, t, thread):
     csvfile =  open(f"./runs/utils_logger_{dataset}_{model}_{size}_{t}.csv", 'w')
     
     with jtop() as jetson:
@@ -28,7 +28,7 @@ def log_utils(model, size, dataset, t):
         # Write first row
         writer.writerow(stats)
         # Start loop
-        while jetson.ok():
+        while jetson.ok() and thread.is_alive():
             stats = jetson.stats
             # Write row
             writer.writerow(stats)
@@ -340,7 +340,7 @@ class OzoneModel:
             valid_loss,valid_acc,
             test_loss,test_acc
         ))
-        dummy
+        sys.exit()
 
 if __name__ == "__main__":
 
@@ -359,6 +359,6 @@ if __name__ == "__main__":
     model = OzoneModel(model_type = args.model,model_size=args.size,sparsity_level=args.sparsity)
     t = Thread( target = model.fit, args = ( ozone_data , args.epochs, True, args.log) )
     t.start()
-    log_utils(model.model_type, model.model_size, "ozone", time.strftime('%H:%M:%S', time.localtime()))
+    log_utils(model.model_type, model.model_size, "ozone", time.strftime('%H:%M:%S', time.localtime()), t)
     #model.fit(ozone_data,epochs=args.epochs,log_period=args.log)
 
