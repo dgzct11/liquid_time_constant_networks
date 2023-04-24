@@ -13,7 +13,7 @@ import time
 from jtop import jtop
 import csv
 from threading import Thread
-import sys
+
 
 def log_utils(model, size, dataset, t):
     csvfile =  open(f"./runs/utils_logger_{dataset}_{model}_{size}_{t}.csv", 'w')
@@ -264,7 +264,7 @@ class GestureModel:
             valid_loss,valid_acc,
             test_loss,test_acc
         ))
-        sys.exit()
+        os._exit(0)
 
 if __name__ == "__main__":
 
