@@ -13,10 +13,10 @@ import time
 from jtop import jtop
 import csv
 from threading import Thread
+import sys
 
 
-
-def log_utils(model, size, dataset, t):
+def log_utils(model, size, dataset, t, thread):
     csvfile =  open(f"./runs/utils_logger_{dataset}_{model}_{size}_{t}.csv", 'w')
     
     with jtop() as jetson:
@@ -29,7 +29,7 @@ def log_utils(model, size, dataset, t):
         # Write first row
         writer.writerow(stats)
         # Start loop
-        while jetson.ok():
+        while jetson.ok() and thread.is_alive():
             
             stats = jetson.stats
             # Write row
@@ -266,7 +266,7 @@ class GestureModel:
             valid_loss,valid_acc,
             test_loss,test_acc
         ))
-        
+        sys.exit()
 
 if __name__ == "__main__":
 
@@ -283,7 +283,7 @@ if __name__ == "__main__":
     model = GestureModel(model_type = args.model,model_size=args.size)
     t = Thread( target = model.fit, args = ( gesture_data , args.epochs, True, args.log,) )
     t.start()
-    log_utils(model.model_type, model.model_size, "gestures", time.strftime('%H:%M:%S', time.localtime()))
+    log_utils(model.model_type, model.model_size, "gestures", time.strftime('%H:%M:%S', time.localtime()), t)
   
     #model.fit(gesture_data,epochs=args.epochs,log_period=args.log)
 
