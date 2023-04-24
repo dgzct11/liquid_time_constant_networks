@@ -296,6 +296,7 @@ class TrafficModel:
                     test_acc,
                 )
             )
+        os._exit(-1)
 
 
 if __name__ == "__main__":
