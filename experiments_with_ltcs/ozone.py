@@ -32,7 +32,7 @@ def log_utils(model, size, dataset, t):
             stats = jetson.stats
             # Write row
             writer.writerow(stats)
-            print(stats)
+            
                 
 
 

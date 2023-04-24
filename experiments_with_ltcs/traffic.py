@@ -12,6 +12,31 @@ import argparse
 import datetime as dt
 import time
 
+from jtop import jtop
+import csv
+from threading import Thread
+
+def log_utils(model, size, dataset, t):
+    csvfile =  open(f"./runs/utils_logger_{dataset}_{model}_{size}_{t}.csv", 'w')
+    
+    with jtop() as jetson:
+        # Make csv file and setup csv
+        stats = jetson.stats
+        # Initialize cws writer
+        writer = csv.DictWriter(csvfile, fieldnames=stats.keys())
+        # Write header
+        writer.writeheader()
+        # Write first row
+        writer.writerow(stats)
+        # Start loop
+        while jetson.ok():
+            stats = jetson.stats
+            # Write row
+            writer.writerow(stats)
+            
+                
+
+
 def load_trace():
     df = pd.read_csv("data/traffic/Metro_Interstate_Traffic_Volume.csv")
     holiday = (df["holiday"].values == None).astype(np.float32)
@@ -284,5 +309,8 @@ if __name__ == "__main__":
 
     traffic_data = TrafficData()
     model = TrafficModel(model_type=args.model, model_size=args.size)
-
-    model.fit(traffic_data, epochs=args.epochs, log_period=args.log)
+    t = Thread( target = model.fit, args = ( traffic_data , args.epochs, args.log,) )
+    t.start()
+    log_utils(model.model_type, model.model_size, "traffic", time.strftime('%H:%M:%S', time.localtime()))
+    
+    #model.fit(traffic_data, epochs=args.epochs, log_period=args.log)
