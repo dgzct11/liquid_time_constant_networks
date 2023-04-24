@@ -271,7 +271,7 @@ class OzoneModel:
        
   
         
-        file = open(f"./runs/{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
+        file = open(f"./runs/training_info_{'ozone'}_{self.model_type}_{self.model_size}_{time.strftime('%H:%M:%S', time.localtime())}.csv", "w")
         total_losses = []
         total_accs = []
         best_valid_acc = 0
